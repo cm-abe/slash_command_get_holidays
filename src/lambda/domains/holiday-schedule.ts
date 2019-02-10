@@ -11,7 +11,7 @@ export class HolidaySchedule {
                 throw new ApplicationError("日付の指定がありません。");
             }
 
-            if(!moment(commandParameter.text).isValid()) {
+            if(!moment(commandParameter.text, "YYYY-MM-DD").isValid()) {
                 throw new ApplicationError("指定された文字が日付ではありません。 " + commandParameter.text);
             }
         } else {
