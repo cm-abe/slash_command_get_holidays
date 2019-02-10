@@ -20,4 +20,5 @@ Options:
 * intelli-espower-loader
 * power-assert
   * require install type
-
+* mocha
+  * require install type

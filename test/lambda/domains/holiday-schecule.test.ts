@@ -1,6 +1,8 @@
 // test/lamdba/domains/holiday-schecule.test.ts
 import * as assert from 'power-assert';
-import {describe, it} from 'mocha';
+import 'mocha';
+import { ApplicationError } from '../../../src/lambda/exceptions/ApplicationError';
+import { HolidaySchedule } from '../../../src/lambda/domains/holiday-schedule';
 
 // 「いつ」「誰が」休みをとるのか
 // TODO 引数にインプットパラメータを渡さなかった場合はエラーになる
@@ -13,10 +15,10 @@ describe("休暇スケジュール", () => {
             () => {
                 new HolidaySchedule(null);
             },
-            (error) => {
-                assert(error.message === "");
+            (error: ApplicationError) => {
+                assert(error.message === "コマンドパラメータがありません。");
                 return true;
             }
         )
     });
-});
+})
