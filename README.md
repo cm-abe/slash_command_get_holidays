@@ -22,6 +22,7 @@ Options:
   * require install type
 * mocha
   * require install type
+* TSLint
 
 ## With VSCode
 
