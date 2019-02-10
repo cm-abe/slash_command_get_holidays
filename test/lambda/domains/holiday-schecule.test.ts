@@ -63,6 +63,23 @@ describe("休暇スケジュール", () => {
                 }
             )
         });
+
+        it("textに指定されている文字列が日付ではなかった場合はエラーになる", () => {
+            assert.throws(
+                () => {
+                    new HolidaySchedule(generateTestSlashCommand(
+                        {
+                            command: "get-holidays",
+                            text: "not-date-string"
+                        }
+                    ))
+                },
+                (error: ApplicationError) => {
+                    assert(error.message === "指定された文字が日付ではありません。 not-date-string");
+                    return true;
+                }
+            )
+        });
     })
 })
 
