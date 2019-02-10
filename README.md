@@ -22,3 +22,7 @@ Options:
   * require install type
 * mocha
   * require install type
+
+## With VSCode
+
+* `ts-node` for `Run Code`

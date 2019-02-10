@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "scripts": {
     "build": "webpack --config webpack.config.js",
-    "watch": "webpack --config webpack.config.js --watch"
+    "watch": "webpack --config webpack.config.js --watch",
+    "test": "mocha -r ts-node/register \"test/**/*.ts\""
   },
   "devDependencies": {
     "@types/mocha": "^5.2.5",
@@ -21,6 +22,7 @@
   },
   "dependencies": {
     "aws-sdk": "^2.392.0",
+    "ts-node": "^8.0.2",
     "uuid": "^3.3.2"
   }
 }
