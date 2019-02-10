@@ -22,7 +22,7 @@ describe("休暇スケジュール", () => {
     });
 
     describe("コマンド名のバリデーション", () => {
-        it("引数のcommand文字列がセットされていなかった場合はエラーになる", () => {
+        it("セットされていなかった場合はエラーになる", () => {
             assert.throws(
                 () => {
                     new HolidaySchedule(generateTestSlashCommand({}));
@@ -34,7 +34,7 @@ describe("休暇スケジュール", () => {
             )
         });
     
-        it("引数のcommand文字列がget-holidaysではなかった場合はエラーになる", () => {
+        it("get-holidaysではなかった場合はエラーになる", () => {
             assert.throws(
                 () => {
                     new HolidaySchedule(generateTestSlashCommand(
@@ -50,7 +50,7 @@ describe("休暇スケジュール", () => {
     })
 
     describe("コマンドパラメータ(textに指定)のバリデーション", () => {
-        it("textに日付が指定されていなかった場合はエラーになる", () => {
+        it("日付が指定されていなかった場合はエラーになる", () => {
             assert.throws(
                 () => {
                     new HolidaySchedule(generateTestSlashCommand(
@@ -64,7 +64,7 @@ describe("休暇スケジュール", () => {
             )
         });
 
-        it("textに指定されている文字列が日付ではなかった場合はエラーになる", () => {
+        it("指定されている文字列が日付ではなかった場合はエラーになる", () => {
             assert.throws(
                 () => {
                     new HolidaySchedule(generateTestSlashCommand(
