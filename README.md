@@ -27,3 +27,20 @@ Options:
 ## With VSCode
 
 * `ts-node` for `Run Code`
+
+### Add task
+
+Add below tasks for `tasks.json`
+
+```
+        {
+            "label": "ts-node",
+            "type": "shell",
+            "command": "npm-run ts-node ${relativeFile}"
+        },
+        {
+            "label": "mocha",
+            "type": "shell",
+            "command": "mocha -r ts-node/register ${relativeFile}"
+        }
+```
