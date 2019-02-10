@@ -21,81 +21,85 @@ describe("休暇スケジュール", () => {
         )
     });
 
-    it("引数のcommand文字列がセットされていなかった場合はエラーになる", () => {
-        assert.throws(
-            () => {
-                new HolidaySchedule(new class implements SlashCommandParameter{
-                    token: string;
-                    teamId: string;
-                    teamDomain: string;
-                    enterpriseId: string;
-                    enterpriseName: string;
-                    channelId: string;
-                    channelName: string;
-                    userId: string;
-                    userName: string;
-                    command: string;
-                    text: string;
-                    responseUrl: string;
-                    triggerId: string;
-                });
-            },
-            (error: ApplicationError) => {
-                assert(error.message === "コマンドがセットされていません。");
-                return true;
-            }
-        )
-    });
+    describe("コマンド名のバリデーション", () => {
+        it("引数のcommand文字列がセットされていなかった場合はエラーになる", () => {
+            assert.throws(
+                () => {
+                    new HolidaySchedule(new class implements SlashCommandParameter{
+                        token: string;
+                        teamId: string;
+                        teamDomain: string;
+                        enterpriseId: string;
+                        enterpriseName: string;
+                        channelId: string;
+                        channelName: string;
+                        userId: string;
+                        userName: string;
+                        command: string;
+                        text: string;
+                        responseUrl: string;
+                        triggerId: string;
+                    });
+                },
+                (error: ApplicationError) => {
+                    assert(error.message === "コマンドがセットされていません。");
+                    return true;
+                }
+            )
+        });
+    
+        it("引数のcommand文字列がget-holidaysではなかった場合はエラーになる", () => {
+            assert.throws(
+                () => {
+                    new HolidaySchedule(new class implements SlashCommandParameter{
+                        token: string;
+                        teamId: string;
+                        teamDomain: string;
+                        enterpriseId: string;
+                        enterpriseName: string;
+                        channelId: string;
+                        channelName: string;
+                        userId: string;
+                        userName: string;
+                        command: string = "error-command";
+                        text: string;
+                        responseUrl: string;
+                        triggerId: string;
+                    })
+                },
+                (error: ApplicationError) => {
+                    assert(error.message === "コマンド名が違います。 error-command");
+                    return true;
+                }
+            )
+        });    
+    })
 
-    it("引数のcommand文字列がget-holidaysではなかった場合はエラーになる", () => {
-        assert.throws(
-            () => {
-                new HolidaySchedule(new class implements SlashCommandParameter{
-                    token: string;
-                    teamId: string;
-                    teamDomain: string;
-                    enterpriseId: string;
-                    enterpriseName: string;
-                    channelId: string;
-                    channelName: string;
-                    userId: string;
-                    userName: string;
-                    command: string = "error-command";
-                    text: string;
-                    responseUrl: string;
-                    triggerId: string;
-                })
-            },
-            (error: ApplicationError) => {
-                assert(error.message === "コマンド名が違います。 error-command");
-                return true;
-            }
-        )
-    });
-
-    it("textに日付が指定されていなかった場合はエラーになる", () => {
-        assert.throws(
-            () => {
-                new HolidaySchedule(new class implements SlashCommandParameter{
-                    token: string;
-                    teamId: string;
-                    teamDomain: string;
-                    enterpriseId: string;
-                    enterpriseName: string;
-                    channelId: string;
-                    channelName: string;
-                    userId: string;
-                    userName: string;
-                    command: string = "get-holidays";
-                    text: string;
-                    responseUrl: string;
-                    triggerId: string;
-                });
-            },
-            (error: ApplicationError) => {
-                assert(error.message === "日付の指定がありません。");
-                return true;
-            }
-        )
-    });
+    describe("コマンドパラメータ(textに指定)のバリデーション", () => {
+        it("textに日付が指定されていなかった場合はエラーになる", () => {
+            assert.throws(
+                () => {
+                    new HolidaySchedule(new class implements SlashCommandParameter{
+                        token: string;
+                        teamId: string;
+                        teamDomain: string;
+                        enterpriseId: string;
+                        enterpriseName: string;
+                        channelId: string;
+                        channelName: string;
+                        userId: string;
+                        userName: string;
+                        command: string = "get-holidays";
+                        text: string;
+                        responseUrl: string;
+                        triggerId: string;
+                    });
+                },
+                (error: ApplicationError) => {
+                    assert(error.message === "日付の指定がありません。");
+                    return true;
+                }
+            )
+        });
+    })
 })
