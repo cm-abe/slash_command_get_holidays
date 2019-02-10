@@ -6,8 +6,8 @@ import { HolidaySchedule } from '../../../src/lambda/domains/holiday-schedule';
 import { SlashCommandParameter } from '../../../src/lambda/domains/slash-command-parameter';
 
 // 「いつ」「誰が」休みをとるのか
-// TODO インプットパラメータのテキストが日付形式ではなかった場合はエラーにする
 // TODO インプットパラメータのテキストは日付形式を複数受けることができる
+// TODO 複数の日付で一部のみフォーマットエラーが出た場合の挙動を決める
 describe("休暇スケジュール", () => {
     it("引数にインプットパラメータを渡さなかった場合はエラーになる", () => {
         assert.throws(
