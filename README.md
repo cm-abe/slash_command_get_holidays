@@ -23,6 +23,7 @@ Options:
 * mocha
   * require install type
 * TSLint
+* nyc
 
 ## With VSCode
 
