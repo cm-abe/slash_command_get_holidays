@@ -5,6 +5,10 @@ export class HolidaySchedule {
     constructor(commandParameter: SlashCommandParameter | null) {
         if(commandParameter != null) {
             validateCommand(commandParameter);
+
+            if(commandParameter.text == null) {
+                throw new ApplicationError("日付の指定がありません。");
+            }
         } else {
             throw new ApplicationError("コマンドパラメータがありません。");
         }

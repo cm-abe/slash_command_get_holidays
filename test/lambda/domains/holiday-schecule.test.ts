@@ -71,5 +71,31 @@ describe("休暇スケジュール", () => {
                 return true;
             }
         )
-    })
+    });
+
+    it("textに日付が指定されていなかった場合はエラーになる", () => {
+        assert.throws(
+            () => {
+                new HolidaySchedule(new class implements SlashCommandParameter{
+                    token: string;
+                    teamId: string;
+                    teamDomain: string;
+                    enterpriseId: string;
+                    enterpriseName: string;
+                    channelId: string;
+                    channelName: string;
+                    userId: string;
+                    userName: string;
+                    command: string = "get-holidays";
+                    text: string;
+                    responseUrl: string;
+                    triggerId: string;
+                });
+            },
+            (error: ApplicationError) => {
+                assert(error.message === "日付の指定がありません。");
+                return true;
+            }
+        )
+    });
 })
