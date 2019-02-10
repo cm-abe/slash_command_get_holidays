@@ -8,13 +8,16 @@
   "devDependencies": {
     "@types/node": "^8.9.4",
     "@types/uuid": "^3.4.4",
+    "intelli-espower-loader": "^1.0.1",
+    "power-assert": "^1.6.1",
+    "ts-loader": "^5.3.0",
     "typescript": "^3.1.6",
     "webpack": "^4.25.1",
     "webpack-cli": "^3.1.2",
-    "ts-loader": "^5.3.0",
     "webpack-node-externals": "^1.7.2"
   },
   "dependencies": {
+    "@types/power-assert": "^1.5.0",
     "aws-sdk": "^2.392.0",
     "uuid": "^3.3.2"
   }
