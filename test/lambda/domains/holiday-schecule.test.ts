@@ -25,21 +25,7 @@ describe("休暇スケジュール", () => {
         it("引数のcommand文字列がセットされていなかった場合はエラーになる", () => {
             assert.throws(
                 () => {
-                    new HolidaySchedule(new class implements SlashCommandParameter{
-                        token: string;
-                        teamId: string;
-                        teamDomain: string;
-                        enterpriseId: string;
-                        enterpriseName: string;
-                        channelId: string;
-                        channelName: string;
-                        userId: string;
-                        userName: string;
-                        command: string;
-                        text: string;
-                        responseUrl: string;
-                        triggerId: string;
-                    });
+                    new HolidaySchedule(generateTestSlashCommand({}));
                 },
                 (error: ApplicationError) => {
                     assert(error.message === "コマンドがセットされていません。");
@@ -51,21 +37,9 @@ describe("休暇スケジュール", () => {
         it("引数のcommand文字列がget-holidaysではなかった場合はエラーになる", () => {
             assert.throws(
                 () => {
-                    new HolidaySchedule(new class implements SlashCommandParameter{
-                        token: string;
-                        teamId: string;
-                        teamDomain: string;
-                        enterpriseId: string;
-                        enterpriseName: string;
-                        channelId: string;
-                        channelName: string;
-                        userId: string;
-                        userName: string;
-                        command: string = "error-command";
-                        text: string;
-                        responseUrl: string;
-                        triggerId: string;
-                    })
+                    new HolidaySchedule(generateTestSlashCommand(
+                        {command: "error-command"}
+                    ));
                 },
                 (error: ApplicationError) => {
                     assert(error.message === "コマンド名が違います。 error-command");
@@ -79,21 +53,9 @@ describe("休暇スケジュール", () => {
         it("textに日付が指定されていなかった場合はエラーになる", () => {
             assert.throws(
                 () => {
-                    new HolidaySchedule(new class implements SlashCommandParameter{
-                        token: string;
-                        teamId: string;
-                        teamDomain: string;
-                        enterpriseId: string;
-                        enterpriseName: string;
-                        channelId: string;
-                        channelName: string;
-                        userId: string;
-                        userName: string;
-                        command: string = "get-holidays";
-                        text: string;
-                        responseUrl: string;
-                        triggerId: string;
-                    });
+                    new HolidaySchedule(generateTestSlashCommand(
+                        {command: "get-holidays"}
+                    ));
                 },
                 (error: ApplicationError) => {
                     assert(error.message === "日付の指定がありません。");
@@ -103,3 +65,34 @@ describe("休暇スケジュール", () => {
         });
     })
 })
+
+function generateTestSlashCommand(params: {
+    command?: string,
+    text?: string
+}): SlashCommandParameter {
+    let ret = new class implements SlashCommandParameter{
+        token: string;
+        teamId: string;
+        teamDomain: string;
+        enterpriseId: string;
+        enterpriseName: string;
+        channelId: string;
+        channelName: string;
+        userId: string;
+        userName: string;
+        command: string;
+        text: string;
+        responseUrl: string;
+        triggerId: string;
+    }
+
+    if(params.command != null) {
+        ret.command = params.command;
+    }
+
+    if(params.text != null) {
+        ret.text = params.text;
+    }
+
+    return ret;
+}
