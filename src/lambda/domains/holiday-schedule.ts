@@ -7,6 +7,9 @@ export class HolidaySchedule {
             if(commandParameter.command == null) {
                 throw new ApplicationError("コマンドがセットされていません。");
             }
+            if(commandParameter.command != "get-holidays") {
+                throw new ApplicationError("コマンド名が違います。 " + commandParameter.command);
+            }
         } else {
             throw new ApplicationError("コマンドパラメータがありません。");
         }
