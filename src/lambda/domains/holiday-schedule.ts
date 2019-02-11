@@ -3,6 +3,8 @@ import { ApplicationError } from '../exceptions/ApplicationError';
 import * as moment from 'moment';
 
 export class HolidaySchedule {
+    public userName: string;
+    public holidayList: Array<string> = [];
     public parseErrorList: Array<string> = [];
 
     constructor(commandParameter: SlashCommandParameter | null) {
@@ -14,10 +16,14 @@ export class HolidaySchedule {
             }
 
             commandParameter.text.split(" ").forEach((dateString) => {
-                if(!moment(dateString, "YYYY-MM-DD").isValid()) {
+                if(moment(dateString, "YYYY-MM-DD").isValid()) {
+                    this.holidayList.push(dateString);
+                } else {
                     this.parseErrorList.push(dateString);
                 }
-            });
+            })
+
+            this.userName = commandParameter.userName;
         } else {
             throw new ApplicationError("コマンドパラメータがありません。");
         }

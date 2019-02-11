@@ -6,8 +6,6 @@ import { HolidaySchedule } from '../../../src/lambda/domains/holiday-schedule';
 import { SlashCommandParameter } from '../../../src/lambda/domains/slash-command-parameter';
 
 // 「いつ」「誰が」休みをとるのか
-// TODO インプットパラメータのテキストは日付形式を複数受けることができる
-// TODO 正常にパラメータを読み込めた場合は対象者名と日付のリストを得られる
 describe("休暇スケジュール", () => {
     it("引数にインプットパラメータを渡さなかった場合はエラーになる", () => {
         assert.throws(
@@ -87,11 +85,31 @@ describe("休暇スケジュール", () => {
             assert(actual.parseErrorList[1] === "parse-error");
         })
     })
+
+    describe("休暇スケジュールオブジェクトの作成", () => {
+        it("正常にパラメータを読み込めた場合は対象者名と日付のリストを得られる", () => {
+            const actual = new HolidaySchedule(generateTestSlashCommand(
+                {
+                    command: "get-holidays",
+                    text: "2019-04-03 error-strings 2019-04-25 2019-05-30",
+                    userName: "Shinsuke-Abe"
+                }
+            ));
+            assert(actual.userName === "Shinsuke-Abe");
+            assert(actual.holidayList.length === 3);
+            assert(actual.holidayList[0] === "2019-04-03");
+            assert(actual.holidayList[1] === "2019-04-25");
+            assert(actual.holidayList[2] === "2019-05-30");
+            assert(actual.parseErrorList.length === 1);
+            assert(actual.parseErrorList[0] === "error-strings");
+        })
+    })
 })
 
 function generateTestSlashCommand(params: {
     command?: string,
-    text?: string
+    text?: string,
+    userName?: string
 }): SlashCommandParameter {
     let ret = new class implements SlashCommandParameter{
         token: string;
@@ -115,6 +133,10 @@ function generateTestSlashCommand(params: {
 
     if(params.text != null) {
         ret.text = params.text;
+    }
+
+    if(params.userName != null) {
+        ret.userName = params.userName;
     }
 
     return ret;
