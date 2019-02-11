@@ -1,8 +1,6 @@
 import * as AWS from "aws-sdk";
 import { calendar_v3 } from "googleapis";
-import { HolidaySchedule } from "../domains/holiday-schedule";
 import { ApplicationError } from "../exceptions/ApplicationError";
-import { start } from "repl";
 
 // 認証情報の取得
 class GoogleApiKey {
