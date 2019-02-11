@@ -1,6 +1,4 @@
 
-// 作成したイベントオブジェクトをGoogleカレンダーに突っ込む
-// TODO 指定された全ての日付のカレンダーオブジェクトを作成する
 // TODO カレンダーIDを環境変数から取得する(classmethod.jp_eus6u1acvll0211tpnfvr8uvrc@group.calendar.google.com)
 // -> ATTENDANCE_CALENDAR_ID
 // TODO APIキーをS3から取得する(暗号化する)

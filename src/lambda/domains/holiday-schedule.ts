@@ -1,11 +1,14 @@
 import { SlashCommandParameter } from './slash-command-parameter';
 import { ApplicationError } from '../exceptions/ApplicationError';
 import * as moment from 'moment';
+import { GoogleCalenderRequest as Calendar } from '../infrastructures/google-calendar-request';
 
 export class HolidaySchedule {
     public userName: string;
     public holidayList: Array<string> = [];
     public parseErrorList: Array<string> = [];
+    public insertSuccessList: Array<string> = [];
+    public insertErrorList: Array<string> = [];
 
     constructor(commandParameter: SlashCommandParameter | null) {
         if(commandParameter != null) {
@@ -27,6 +30,17 @@ export class HolidaySchedule {
         } else {
             throw new ApplicationError("コマンドパラメータがありません。");
         }
+    }
+
+    // カレンダーへのリクエスト
+    insertHolidays() {
+        this.holidayList.forEach((dateString) => {
+            Calendar.insertHolidayEvent(Calendar.generateEvent(this.userName, dateString)).then((eventHtml) => {
+                this.insertSuccessList.push(eventHtml);
+            }).catch(() => {
+                this.insertErrorList.push(dateString);
+            });
+        })
     }
 }
 
