@@ -18,5 +18,13 @@
   {
     "Name": "Wcu",
     "Value": "1"
+  },
+  {
+    "Name": "AttendanceCalendarId",
+    "Value": "classmethod.jp_eus6u1acvll0211tpnfvr8uvrc@group.calendar.google.com"
+  },
+  {
+    "Name": "GoogleApiKeyBucket",
+    "Value": "stg-google-api-key"
   }
 ]
