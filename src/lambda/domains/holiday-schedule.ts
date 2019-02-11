@@ -3,6 +3,8 @@ import { ApplicationError } from '../exceptions/ApplicationError';
 import * as moment from 'moment';
 
 export class HolidaySchedule {
+    public parseErrorList: Array<string> = [];
+
     constructor(commandParameter: SlashCommandParameter | null) {
         if(commandParameter != null) {
             validateCommand(commandParameter);
@@ -11,9 +13,11 @@ export class HolidaySchedule {
                 throw new ApplicationError("日付の指定がありません。");
             }
 
-            if(!moment(commandParameter.text, "YYYY-MM-DD").isValid()) {
-                throw new ApplicationError("指定された文字が日付ではありません。 " + commandParameter.text);
-            }
+            commandParameter.text.split(" ").forEach((dateString) => {
+                if(!moment(dateString, "YYYY-MM-DD").isValid()) {
+                    this.parseErrorList.push(dateString);
+                }
+            });
         } else {
             throw new ApplicationError("コマンドパラメータがありません。");
         }

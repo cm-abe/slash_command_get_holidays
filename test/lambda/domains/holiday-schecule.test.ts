@@ -7,7 +7,6 @@ import { SlashCommandParameter } from '../../../src/lambda/domains/slash-command
 
 // 「いつ」「誰が」休みをとるのか
 // TODO インプットパラメータのテキストは日付形式を複数受けることができる
-// TODO 複数の日付で一部のみフォーマットエラーが出た場合はそのテキストをパースエラーリストとして保持する
 // TODO 正常にパラメータを読み込めた場合は対象者名と日付のリストを得られる
 describe("休暇スケジュール", () => {
     it("引数にインプットパラメータを渡さなかった場合はエラーになる", () => {
@@ -65,22 +64,28 @@ describe("休暇スケジュール", () => {
             )
         });
 
-        it("指定されている文字列が日付ではなかった場合はエラーになる", () => {
-            assert.throws(
-                () => {
-                    new HolidaySchedule(generateTestSlashCommand(
-                        {
-                            command: "get-holidays",
-                            text: "not-date-string"
-                        }
-                    ))
-                },
-                (error: ApplicationError) => {
-                    assert(error.message === "指定された文字が日付ではありません。 not-date-string");
-                    return true;
+        it("指定されている文字列が一つで日付ではなかった場合はパースエラーリストに追加される", () => {
+            const actual = new HolidaySchedule(generateTestSlashCommand(
+                {
+                    command: "get-holidays",
+                    text: "not-date-string"
                 }
-            )
+            ));
+            assert(actual.parseErrorList.length === 1);
+            assert(actual.parseErrorList[0] === "not-date-string");
         });
+
+        it("パースエラーが複数の場合でもパースエラーリストに正しく追加される", () => {
+            const actual = new HolidaySchedule(generateTestSlashCommand(
+                {
+                    command: "get-holidays",
+                    text: "2019-03-03 not-date-string 2019-04-25 parse-error 2019-04-30"
+                }
+            ));
+            assert(actual.parseErrorList.length === 2);
+            assert(actual.parseErrorList[0] === "not-date-string");
+            assert(actual.parseErrorList[1] === "parse-error");
+        })
     })
 })
 
