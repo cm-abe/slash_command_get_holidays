@@ -1,7 +1,7 @@
 import * as AWS from "aws-sdk";
 import { calendar_v3 } from "googleapis";
-import { ApplicationError } from "../exceptions/ApplicationError";
 import { HolidaySchedule } from "../domains/holiday-schedule";
+import { ApplicationError } from "../exceptions/ApplicationError";
 
 // 認証情報の取得
 class GoogleApiKey {
@@ -38,6 +38,7 @@ const calendar = new calendar_v3.Calendar({
     auth: apiKey.keyValue,
 });
 
+// tslint:disable-next-line:max-classes-per-file
 export class GoogleCalenderRequest {
     holidaySchedule: HolidaySchedule;
 
@@ -52,6 +53,7 @@ export class GoogleCalenderRequest {
 
     // APIのコール
     private async createHolidayEvent(event: calendar_v3.Schema$Event): Promise<string> {
+        // tslint:disable-next-line:max-classes-per-file
         const eventParam = new class implements calendar_v3.Params$Resource$Events$Insert {
             calendarId?: string = process.env.ATTENDANCE_CALENDAR_ID;
             requestBody?: calendar_v3.Schema$Event = event;
