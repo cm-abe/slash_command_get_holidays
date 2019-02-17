@@ -2,7 +2,7 @@
 import "mocha";
 import * as assert from "power-assert";
 import { HolidaySchedule } from "../../../src/lambda/domains/holiday-schedule";
-import { ISlashCommandParameter } from "../../../src/lambda/domains/slash-command-parameter";
+import { parseBody } from "../../../src/lambda/domains/slash-command-parameter";
 import { ApplicationError } from "../../../src/lambda/exceptions/ApplicationError";
 
 // 「いつ」「誰が」休みをとるのか
@@ -25,7 +25,7 @@ describe("休暇スケジュール", () => {
             assert.throws(
                 () => {
                     // tslint:disable-next-line:no-unused-expression
-                    new HolidaySchedule(generateTestSlashCommand({}));
+                    new HolidaySchedule(parseBody(""));
                 },
                 (error: ApplicationError) => {
                     assert(error.message === "コマンドがセットされていません。");
@@ -38,9 +38,7 @@ describe("休暇スケジュール", () => {
             assert.throws(
                 () => {
                     // tslint:disable-next-line:no-unused-expression
-                    new HolidaySchedule(generateTestSlashCommand(
-                        {command: "error-command"},
-                    ));
+                    new HolidaySchedule(parseBody("command=error-command"));
                 },
                 (error: ApplicationError) => {
                     assert(error.message === "コマンド名が違います。 error-command");
@@ -55,9 +53,7 @@ describe("休暇スケジュール", () => {
             assert.throws(
                 () => {
                     // tslint:disable-next-line:no-unused-expression
-                    new HolidaySchedule(generateTestSlashCommand(
-                        {command: "get-holidays"},
-                    ));
+                    new HolidaySchedule(parseBody("command=get-holidays"));
                 },
                 (error: ApplicationError) => {
                     assert(error.message === "日付の指定がありません。");
@@ -67,23 +63,15 @@ describe("休暇スケジュール", () => {
         });
 
         it("指定されている文字列が一つで日付ではなかった場合はパースエラーリストに追加される", () => {
-            const actual = new HolidaySchedule(generateTestSlashCommand(
-                {
-                    command: "get-holidays",
-                    text: "not-date-string",
-                },
-            ));
+            const actual = new HolidaySchedule(parseBody("command=get-holidays&text=not-date-string"));
             assert(actual.parseErrorList.length === 1);
             assert(actual.parseErrorList[0] === "not-date-string");
         });
 
         it("パースエラーが複数の場合でもパースエラーリストに正しく追加される", () => {
-            const actual = new HolidaySchedule(generateTestSlashCommand(
-                {
-                    command: "get-holidays",
-                    text: "2019-03-03 not-date-string 2019-04-25 parse-error 2019-04-30",
-                },
-            ));
+            const actual = new HolidaySchedule(parseBody(
+                "command=get-holidays&" +
+                "text=2019-03-03 not-date-string 2019-04-25 parse-error 2019-04-30"));
             assert(actual.parseErrorList.length === 2);
             assert(actual.parseErrorList[0] === "not-date-string");
             assert(actual.parseErrorList[1] === "parse-error");
@@ -92,13 +80,10 @@ describe("休暇スケジュール", () => {
 
     describe("休暇スケジュールオブジェクトの作成", () => {
         it("正常にパラメータを読み込めた場合は対象者名と日付のリストを得られる", () => {
-            const actual = new HolidaySchedule(generateTestSlashCommand(
-                {
-                    command: "get-holidays",
-                    text: "2019-04-03 error-strings 2019-04-25 2019-05-30",
-                    userName: "Shinsuke-Abe",
-                },
-            ));
+            const actual = new HolidaySchedule(parseBody(
+                "command=get-holidays&" +
+                "text=2019-04-03 error-strings 2019-04-25 2019-05-30&" +
+                "user_name=Shinsuke-Abe"));
             assert(actual.userName === "Shinsuke-Abe");
             assert(actual.holidayList.length === 3);
             assert(actual.holidayList[0] === "2019-04-03");
@@ -109,39 +94,3 @@ describe("休暇スケジュール", () => {
         });
     });
 });
-
-function generateTestSlashCommand(params: {
-    command?: string,
-    text?: string,
-    userName?: string,
-}): ISlashCommandParameter {
-    const ret = new class implements ISlashCommandParameter {
-        public token: string;
-        public teamId: string;
-        public teamDomain: string;
-        public enterpriseId: string;
-        public enterpriseName: string;
-        public channelId: string;
-        public channelName: string;
-        public userId: string;
-        public userName: string;
-        public command: string;
-        public text: string;
-        public responseUrl: string;
-        public triggerId: string;
-    }();
-
-    if (params.command != null) {
-        ret.command = params.command;
-    }
-
-    if (params.text != null) {
-        ret.text = params.text;
-    }
-
-    if (params.userName != null) {
-        ret.userName = params.userName;
-    }
-
-    return ret;
-}
