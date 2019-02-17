@@ -5,7 +5,7 @@ module.exports = {
     mode: 'development',
     target: 'node',
     entry: {
-        'hello-world': path.resolve(__dirname, './src/lambda/handlers/hello/hello-world.ts'),
+        'get-holiday': path.resolve(__dirname, './src/lambda/handlers/get-holiday/get-holiday.ts'),
     },
     externals: [nodeExternals({
         modulesFromFile: {

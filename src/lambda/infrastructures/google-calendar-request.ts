@@ -5,7 +5,7 @@ import { ApplicationError } from "../exceptions/ApplicationError";
 // 認証情報の取得
 class GoogleApiKey {
     private clientSecretObjectParameter: any = {
-        Bueckt: process.env.GOOGLE_API_CLIENT_SECRET_BUCKET,
+        Bucket: process.env.GOOGLE_API_CLIENT_SECRET_BUCKET,
         Key: "api_key.txt",
     };
 

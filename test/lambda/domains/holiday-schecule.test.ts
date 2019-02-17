@@ -3,7 +3,7 @@ import * as assert from 'power-assert';
 import 'mocha';
 import { ApplicationError } from '../../../src/lambda/exceptions/ApplicationError';
 import { HolidaySchedule } from '../../../src/lambda/domains/holiday-schedule';
-import { SlashCommandParameter } from '../../../src/lambda/domains/slash-command-parameter';
+import { ISlashCommandParameter } from '../../../src/lambda/domains/slash-command-parameter';
 
 // 「いつ」「誰が」休みをとるのか
 describe("休暇スケジュール", () => {
@@ -110,8 +110,8 @@ function generateTestSlashCommand(params: {
     command?: string,
     text?: string,
     userName?: string
-}): SlashCommandParameter {
-    let ret = new class implements SlashCommandParameter{
+}): ISlashCommandParameter {
+    let ret = new class implements ISlashCommandParameter{
         token: string;
         teamId: string;
         teamDomain: string;

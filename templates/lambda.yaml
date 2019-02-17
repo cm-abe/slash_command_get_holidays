@@ -1,12 +1,12 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Resources:
-  HelloWorldHelloLambda:
+  GetHolidayLambda:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: !Sub ${Env}-${AppName}-hello
-      Role: !GetAtt HelloWorldLambdaRole.Arn
-      Handler: hello-world/index.handler
+      Role: !GetAtt GetHolidayLambdaRole.Arn
+      Handler: get-holiday/index.handler
       Runtime: nodejs8.10
       CodeUri:
         Bucket: !Ref DeployBucketName
@@ -15,10 +15,11 @@ Resources:
       Environment:
         Variables:
           ENV: !Ref Env
-          GREETING_TABLE_NAME: !Ref GreetingTableName
+          ATTENDANCE_CALENDAR_ID: !Ref AttendanceCalendarId
+          GOOGLE_API_KEY: !Ref GoogleApiKeyBucket
           REGION: !Ref AWS::Region
 
-  HelloWorldLambdaRole:
+  GetHolidayLambdaRole:
     Type: 'AWS::IAM::Role'
     Properties:
       RoleName: !Sub ${Env}-${AppName}-lambda-role

@@ -1,4 +1,4 @@
-import { SlashCommandParameter } from './slash-command-parameter';
+import { ISlashCommandParameter } from './slash-command-parameter';
 import { ApplicationError } from '../exceptions/ApplicationError';
 import * as moment from 'moment';
 import { GoogleCalenderRequest as Calendar } from '../infrastructures/google-calendar-request';
@@ -10,7 +10,7 @@ export class HolidaySchedule {
     public insertSuccessList: Array<string> = [];
     public insertErrorList: Array<string> = [];
 
-    constructor(commandParameter: SlashCommandParameter | null) {
+    constructor(commandParameter: ISlashCommandParameter | null) {
         if(commandParameter != null) {
             validateCommand(commandParameter);
 
@@ -44,7 +44,7 @@ export class HolidaySchedule {
     }
 }
 
-function validateCommand(commandParameter: SlashCommandParameter) {
+function validateCommand(commandParameter: ISlashCommandParameter) {
     const commandName = "get-holidays";
 
     if(commandParameter.command == null) {
