@@ -2,6 +2,9 @@ import "mocha";
 import * as assert from "power-assert";
 import { parseBody } from "../../../src/lambda/domains/slash-command-parameter";
 
+// TODO バリデーションをSlashコマンドのドメインに変更
+// TODO バリデーションをmixinしたい
+
 // const bodySample = "token=gIkuvaNzQIHg97ATvDxqgjtO" +
 //     "&team_id=T0001" +
 //     "&team_domain=example" +
@@ -90,5 +93,5 @@ describe("SlashCommandのbodyをパースする", () => {
 
     describe("全項目チェック", () => {
 
-    })
+    });
 });

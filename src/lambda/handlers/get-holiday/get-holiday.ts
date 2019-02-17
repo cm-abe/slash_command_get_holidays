@@ -1,21 +1,19 @@
-// import { HolidaySchedule } from "../../domains/holiday-schedule";
+import { HolidaySchedule } from "../../domains/holiday-schedule";
+import { parseBody } from "../../domains/slash-command-parameter";
 
 exports.handler = async (event: any) => {
-    // return GetHolidayController.get(event);
+    return GetHolidayController.get(event);
 };
 
+// TODO 戻り値の対応
 export class GetHolidayController {
-    // public static get(payload: any): Promise<IHolidayResult> {
-    //     console.log(payload);
-    //     // var holidaySchedule = new HolidaySchedule(
-    //     //     new class implements HolidaySchedule(
+    public static get(payload: any): string {
+        // tslint:disable-next-line:no-console
+        console.log(payload);
+        const holidaySchedule = new HolidaySchedule(parseBody(payload.body));
 
-    //     //     )
-    //     // );
-    //     return null;
-    // }
+        holidaySchedule.insertHolidays();
+
+        return "null";
+    }
 }
-
-// interface IHolidayResult {
-
-// }

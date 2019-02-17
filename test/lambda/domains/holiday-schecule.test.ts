@@ -5,6 +5,7 @@ import { HolidaySchedule } from "../../../src/lambda/domains/holiday-schedule";
 import { parseBody } from "../../../src/lambda/domains/slash-command-parameter";
 import { ApplicationError } from "../../../src/lambda/exceptions/ApplicationError";
 
+// TODO インプットパラメータnullのケースはありえないので、テストケースと引数のnullパターン削除
 // 「いつ」「誰が」休みをとるのか
 describe("休暇スケジュール", () => {
     it("引数にインプットパラメータを渡さなかった場合はエラーになる", () => {
