@@ -41,23 +41,25 @@ const calendar = new calendar_v3.Calendar({
 export class GoogleCalenderRequest {
     // CalendarEventの生成
     public static generateEvent(userName: string, dateString: string): calendar_v3.Schema$Event {
+        // tslint:disable-next-line:max-classes-per-file
         const date = new class implements calendar_v3.Schema$EventDateTime {
-            date: string = dateString;
-        };
+            public date: string = dateString;
+        }();
 
+        // tslint:disable-next-line:max-classes-per-file
         return new class implements calendar_v3.Schema$Event {
-            description: string = "休暇(" + userName + ")";
-            start: calendar_v3.Schema$EventDateTime = date;
-        }
+            public description: string = "休暇(" + userName + ")";
+            public start: calendar_v3.Schema$EventDateTime = date;
+        }();
     }
 
     // APIのコール
     public static async insertHolidayEvent(event: calendar_v3.Schema$Event): Promise<string> {
         // tslint:disable-next-line:max-classes-per-file
         const eventParam = new class implements calendar_v3.Params$Resource$Events$Insert {
-            calendarId?: string = process.env.ATTENDANCE_CALENDAR_ID;
-            requestBody?: calendar_v3.Schema$Event = event;
-        };
+            public calendarId?: string = process.env.ATTENDANCE_CALENDAR_ID;
+            public requestBody?: calendar_v3.Schema$Event = event;
+        }();
         const resultEvent = await calendar.events.insert(eventParam);
         if (resultEvent.data.htmlLink) {
             return resultEvent.data.htmlLink;

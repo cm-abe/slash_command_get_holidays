@@ -2,7 +2,7 @@
 
 exports.handler = async (event: any) => {
     // return GetHolidayController.get(event);
-}
+};
 
 export class GetHolidayController {
     // public static get(payload: any): Promise<IHolidayResult> {
