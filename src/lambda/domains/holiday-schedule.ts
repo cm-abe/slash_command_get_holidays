@@ -27,7 +27,9 @@ export class HolidaySchedule {
                 }
             });
 
-            this.userName = commandParameter.userName;
+            if (commandParameter.userName) {
+                this.userName = commandParameter.userName;
+            }
         } else {
             throw new ApplicationError("コマンドパラメータがありません。");
         }
