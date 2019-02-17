@@ -26,7 +26,12 @@ describe("SlashCommandのbodyをパースする", () => {
         it("team_idをパースできる", () => {
             const actual = parseBody("team_id=testteam");
             assert(actual.teamId === "testteam");
-        })
+        });
+
+        it("team_domainをパースできる", () => {
+            const actual = parseBody("team_domain=testdomain");
+            assert(actual.teamDomain === "testdomain");
+        });
     });
 
     describe("項目がない場合は値がnullになる", () => {

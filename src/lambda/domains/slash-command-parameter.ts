@@ -20,6 +20,7 @@ export function parseBody(body: string): ISlashCommandParameter {
     return new class implements ISlashCommandParameter {
         public token?: string = getParameterValue(bodyKeyValues, "token");
         public teamId?: string = getParameterValue(bodyKeyValues, "team_id");
+        public teamDomain?: string = getParameterValue(bodyKeyValues, "team_domain");
     }();
 }
 
