@@ -32,15 +32,18 @@ class GoogleApiKey {
     }
 }
 
-const apiKey = new GoogleApiKey();
-const calendar = new calendar_v3.Calendar({
-    auth: apiKey.keyValue,
-});
-
 // tslint:disable-next-line:max-classes-per-file
 export class GoogleCalenderRequest {
+    private calendar: calendar_v3.Calendar;
+
+    constructor() {
+        this.calendar = new calendar_v3.Calendar({
+            auth: new GoogleApiKey().keyValue,
+        });
+    }
+
     // CalendarEventの生成
-    public static generateEvent(userName: string, dateString: string): calendar_v3.Schema$Event {
+    public generateEvent(userName: string, dateString: string): calendar_v3.Schema$Event {
         // tslint:disable-next-line:max-classes-per-file
         const date = new class implements calendar_v3.Schema$EventDateTime {
             public date: string = dateString;
@@ -54,13 +57,13 @@ export class GoogleCalenderRequest {
     }
 
     // APIのコール
-    public static async insertHolidayEvent(event: calendar_v3.Schema$Event): Promise<string> {
+    public async insertHolidayEvent(event: calendar_v3.Schema$Event): Promise<string> {
         // tslint:disable-next-line:max-classes-per-file
         const eventParam = new class implements calendar_v3.Params$Resource$Events$Insert {
             public calendarId?: string = process.env.ATTENDANCE_CALENDAR_ID;
             public requestBody?: calendar_v3.Schema$Event = event;
         }();
-        const resultEvent = await calendar.events.insert(eventParam);
+        const resultEvent = await this.calendar.events.insert(eventParam);
         if (resultEvent.data.htmlLink) {
             return resultEvent.data.htmlLink;
         } else {

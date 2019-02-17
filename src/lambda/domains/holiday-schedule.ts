@@ -9,6 +9,7 @@ export class HolidaySchedule {
     public parseErrorList: string[] = [];
     public insertSuccessList: string[] = [];
     public insertErrorList: string[] = [];
+    private calendar: Calendar;
 
     constructor(commandParameter: ISlashCommandParameter | null) {
         if (commandParameter != null) {
@@ -34,8 +35,12 @@ export class HolidaySchedule {
 
     // カレンダーへのリクエスト
     public insertHolidays() {
+        if (!this.calendar) {
+            this.calendar = new Calendar();
+        }
         this.holidayList.forEach((dateString) => {
-            Calendar.insertHolidayEvent(Calendar.generateEvent(this.userName, dateString)).then((eventHtml) => {
+            this.calendar.insertHolidayEvent(
+                this.calendar.generateEvent(this.userName, dateString)).then((eventHtml) => {
                 this.insertSuccessList.push(eventHtml);
             }).catch(() => {
                 this.insertErrorList.push(dateString);
