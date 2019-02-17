@@ -21,6 +21,16 @@ export function parseBody(body: string): ISlashCommandParameter {
         public token?: string = getParameterValue(bodyKeyValues, "token");
         public teamId?: string = getParameterValue(bodyKeyValues, "team_id");
         public teamDomain?: string = getParameterValue(bodyKeyValues, "team_domain");
+        public enterpriseId?: string = getParameterValue(bodyKeyValues, "enterprise_id");
+        public enterpriseName?: string = getParameterValue(bodyKeyValues, "enterprise_name");
+        public channelId?: string = getParameterValue(bodyKeyValues, "channel_id");
+        public channelName?: string = getParameterValue(bodyKeyValues, "channel_name");
+        public userId?: string = getParameterValue(bodyKeyValues, "user_id");
+        public userName?: string = getParameterValue(bodyKeyValues, "user_name");
+        public command?: string = getParameterValue(bodyKeyValues, "command");
+        public text?: string = getParameterValue(bodyKeyValues, "text");
+        public responseUrl?: string = getParameterValue(bodyKeyValues, "response_url");
+        public triggerId?: string = getParameterValue(bodyKeyValues, "trigger_id");
     }();
 }
 
